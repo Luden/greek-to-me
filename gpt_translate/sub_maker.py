@@ -29,15 +29,12 @@ def make_subtitles(video_file, config: Config):
 
 
 def main():
+    config = load_or_create_config()
     video_file = ''
     if len(sys.argv) == 1:
         root = tk.Tk()
         root.withdraw()
         video_file = filedialog.askopenfilename()
-    config = load_or_create_config()
-    if not config.api_key:
-        print('Please provide OpenAI API key in config.json')
-        exit(1)
     if len(sys.argv) == 2:
         video_file = sys.argv[1]
     if not video_file:
