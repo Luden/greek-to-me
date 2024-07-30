@@ -21,6 +21,7 @@ class Config:
     translate_with_argos = True
     move_tags = False
     is_whisper = True
+    translated_text_color = 'yellow'
 
     def check_valid(self):
         is_translation_enabled = self.translate_with_gpt or self.translate_with_argos

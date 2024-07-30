@@ -1,4 +1,3 @@
 call "%~dp0activate_env"
 set PYTHONPATH=%~dp0
-python argos_translate.py %*
-pause
+python %~dp0argos_translate.py %*

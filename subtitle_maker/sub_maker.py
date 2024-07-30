@@ -12,6 +12,7 @@ from whisperx_process import make_srt_from_file
 
 
 def make_subtitles(video_file, config: Config):
+    print(f'Subtitle making started for {video_file}')
     srt_file = make_srt_from_file(video_file, config)
     srt = Subtitle(srt_file)
     if config.translate_with_gpt:
@@ -20,9 +21,10 @@ def make_subtitles(video_file, config: Config):
         argos_process.translate_srt(srt, config)
     if config.move_tags:
         gpt_translate_srt.move_tags(srt, config)
-    srt.format_augmented_text()
+    srt.format_augmented_text(config.translated_text_color)
     output_file = make_unique_srt_file_name(video_file)
     srt.save_srt_file(output_file, True)
+    print(f'Subtitle making finished {output_file}')
 
 
 def make_unique_srt_file_name(video_file):

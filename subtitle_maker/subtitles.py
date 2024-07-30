@@ -31,11 +31,11 @@ class SubtitleLine:
         self.translated_text_without_tags = ''
         self.translated_text_with_tags = ''
 
-    def format_augmented_text(self):
+    def format_augmented_text(self, color):
         second_line = self.translated_text_with_tags
         if self.text and not second_line:
             second_line = self.translated_text_without_tags
-        second_line = wrap_in_color(second_line)
+        second_line = wrap_in_color(second_line.strip('\n'), color)
         self.augmented_text = f'{self.text}\n{second_line}'
 
 
@@ -52,9 +52,9 @@ class Subtitle:
         distinct_lines = [k for k, g in groupby(text_lines)]
         return distinct_lines
 
-    def format_augmented_text(self):
+    def format_augmented_text(self, color):
         for subtitle_line in self.lines:
-            subtitle_line.format_augmented_text()
+            subtitle_line.format_augmented_text(color)
 
     def parse_srt_file(self, file_path):
         with open(file_path, 'r', encoding='utf-8') as file:

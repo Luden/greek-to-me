@@ -13,7 +13,7 @@ def translate_srt_in_place(input_file, output_file, config: Config):
     srt = Subtitle(input_file)
     translate_srt(srt, config)
     move_tags(srt, config)
-    srt.format_augmented_text()
+    srt.format_augmented_text(config.translated_text_color)
     srt.save_srt_file(output_file, True)
 
 
@@ -24,6 +24,7 @@ def translate_srt(srt: Subtitle, config: Config):
     for subtitle_line in srt.lines:
         line_index = distinct_lines.index(subtitle_line.text_without_tags)
         subtitle_line.translated_text_without_tags = translated_distinct_lines[line_index]
+    print('GPT finished translating')
 
 
 def move_tags(srt: Subtitle, config: Config):
@@ -31,6 +32,7 @@ def move_tags(srt: Subtitle, config: Config):
     progress_counter.reset(len(srt.lines))
     with concurrent.futures.ThreadPoolExecutor(max_workers=config.max_threads) as executor:
         executor.map(try_move_tags_in_subtitle_line_from_parallel_executor, srt.lines)
+    print('GPT finished moving tags')
 
 
 def try_move_tags_in_subtitle_line_from_parallel_executor(subtitle_line):

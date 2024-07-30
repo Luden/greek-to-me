@@ -23,7 +23,7 @@ def translate_lines(distinct_lines, config: Config):
     print(f'Argos translating srt from {config.language_from} to {config.language_to}')
     from_file_path = os.path.join(_output_dir, 'subtitle_original_lines.txt')
     with open(from_file_path, 'w', encoding='utf-8') as file:
-        file.writelines(distinct_lines)
+        file.write('\n'.join(distinct_lines))
     to_file_path = os.path.join(_output_dir, 'subtitle_translated_lines.txt')
     cmd_line = f'{_argos_location} {config.language_from} {config.language_to} "{from_file_path}" "{to_file_path}"'
     process = subprocess.Popen(cmd_line, stdout=sys.stdout, stderr=sys.stderr)
@@ -33,5 +33,6 @@ def translate_lines(distinct_lines, config: Config):
         exit(1)
     with open(to_file_path, 'r', encoding='utf-8') as file:
         translated_lines = file.readlines()
+    print(f'Argos finished translating')
     return translated_lines
 
