@@ -10,20 +10,27 @@ progress_counter = ProgressCounter('Transforming tags')
 
 
 def translate_srt_in_place(input_file, output_file, config: Config):
-    print(f'Translating {input_file} from {config.language_from} to {config.language_to} with context "{config.context}"')
     srt = Subtitle(input_file)
+    translate_srt(srt, config)
+    move_tags(srt, config)
+    srt.format_augmented_text()
+    srt.save_srt_file(output_file, True)
+
+
+def translate_srt(srt: Subtitle, config: Config):
+    print(f'GPT translating srt from {config.language_from} to {config.language_to} with context "{config.context}"')
     distinct_lines = srt.get_distinct_lines_without_tags()
     translated_distinct_lines = request_translation_parallel(distinct_lines, config)
     for subtitle_line in srt.lines:
         line_index = distinct_lines.index(subtitle_line.text_without_tags)
         subtitle_line.translated_text_without_tags = translated_distinct_lines[line_index]
-    print('Moving tags to translated text')
-    if config.move_tags:
-        progress_counter.reset(len(srt.lines))
-        with concurrent.futures.ThreadPoolExecutor(max_workers=config.max_tokens) as executor:
-            executor.map(try_move_tags_in_subtitle_line_from_parallel_executor, srt.lines)
-    srt.format_augmented_text()
-    srt.save_srt_file(output_file, True)
+
+
+def move_tags(srt: Subtitle, config: Config):
+    print('GPT moving tags to translated text')
+    progress_counter.reset(len(srt.lines))
+    with concurrent.futures.ThreadPoolExecutor(max_workers=config.max_threads) as executor:
+        executor.map(try_move_tags_in_subtitle_line_from_parallel_executor, srt.lines)
 
 
 def try_move_tags_in_subtitle_line_from_parallel_executor(subtitle_line):
@@ -62,7 +69,7 @@ def check_tags_response_looks_legit(translated_line_with_tags, translated_line, 
 
 def main():
     if len(sys.argv) < 4:
-        print('Usage: python translate_srt.py input.srt language_from language_to "context"')
+        print('Usage: python gpt_translate_srt.py input.srt language_from language_to "context"')
         sys.exit(1)
     config = load_or_create_config()
     input_file = sys.argv[1]

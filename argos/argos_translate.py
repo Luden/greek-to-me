@@ -53,7 +53,7 @@ def get_language_code(language_name):
 
 def main():
     if len(sys.argv) < 3:
-        print('Usage: translate_srt.py from_language to_language input.srt output.srt \nor translate_srt.py from_language to_language "text"')
+        print('Usage: gpt_translate_srt.py from_language to_language input.srt output.srt \nor gpt_translate_srt.py from_language to_language "text"')
         exit(1)
     from_name = sys.argv[1]
     to_name = sys.argv[2]

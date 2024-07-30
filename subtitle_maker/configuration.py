@@ -60,9 +60,9 @@ def load_config(config_class, filename):
 
 def load_or_create_config():
     if not os.path.isfile(_config_file_path):
-        print(f'Creating default config file at {_config_file_path}')
         config = Config()
         save_config(config, _config_file_path)
+        print(f'Created default config file at {_config_file_path}. Please edit it and run the script again.')
         return config
     print(f'Loading config file from {_config_file_path}')
     try:
