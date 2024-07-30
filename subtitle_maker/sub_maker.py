@@ -19,7 +19,7 @@ def make_subtitles(video_file, config: Config):
         gpt_translate_srt.translate_srt(srt, config)
     if config.translate_with_argos:
         argos_process.translate_srt(srt, config)
-    if config.move_tags:
+    if config.move_tags_with_gpt:
         gpt_translate_srt.move_tags(srt, config)
     srt.format_augmented_text(config.translated_text_color)
     output_file = make_unique_srt_file_name(video_file)

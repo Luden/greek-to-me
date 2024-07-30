@@ -9,32 +9,32 @@ class Config:
     models_list = ['gpt-4o-mini', 'gpt-4o', 'gpt-3.5-turbo']
     model = 'gpt-4o-mini'
     context = 'Lines from SpongeBob SquarePants animated series'
-    translate_request_format = 'Translate from {language_from} to {language_to}. Don\'t add comments or punctuation.'
+    translate_request_format = 'Translate from {language_from} to {language_to}. Don\'t add comments. Preserve original punctuation.'
     whisper_context = 'Text recorded using OpenAI Whisper with errors.'
     language_from = 'Greek'
     language_to = 'Russian'
-    move_tags_chat_role = f'Place exactly a single pair of tags in the "translated text around exactly the same word where they were in the original text. Add nothing except tags.'
+    move_tags_chat_role = f'Place exactly a single pair of tags in the translated text around exactly the same word where they were in the original text. Add nothing except tags. Use punctuation from translated text'
     move_tags_user_content = 'Original text:{original_line}\nTranslated text:{translated_line}'
     max_tokens = 1000
-    max_threads = 100
-    translate_with_gpt = False
+    max_threads = 50
     translate_with_argos = True
-    move_tags = False
+    translate_with_gpt = False
+    move_tags_with_gpt = False
     is_whisper = True
     translated_text_color = 'yellow'
 
     def check_valid(self):
         is_translation_enabled = self.translate_with_gpt or self.translate_with_argos
-        is_chat_gpt_required = self.translate_with_gpt and self.move_tags
+        is_chat_gpt_required = self.translate_with_gpt and self.move_tags_with_gpt
         if is_chat_gpt_required and not self.api_key:
             raise Exception('api_key for ChatGPT is missing, while translate_with_gpt or move_tags is enabled')
         if self.translate_with_gpt and self.translate_with_argos:
             raise Exception('translate_with_gpt and translate_with_argos cannot be both enabled')
         if is_translation_enabled and (not self.language_from or not self.language_to):
             raise Exception('Languages are not set')
-        if self.move_tags and not self.move_tags_chat_role:
+        if self.move_tags_with_gpt and not self.move_tags_chat_role:
             raise Exception('Move tags chat role is not set')
-        if self.move_tags and not self.move_tags_user_content:
+        if self.move_tags_with_gpt and not self.move_tags_user_content:
             raise Exception('Move tags user content is not set')
         if self.translate_with_gpt and not self.translate_request_format:
             raise Exception('Translate request format is not set')
