@@ -164,3 +164,4 @@ cython_debug/
 
 # config contains sensetive info, so don't push it
 config.json
+*/output/*
