@@ -9,7 +9,7 @@ from subtitles import Subtitle
 _script_dir = os.path.dirname(os.path.abspath(__file__))
 _whisperx_dir = os.path.join(_script_dir, '../whisperx')
 _whisperx_location = os.path.join(_whisperx_dir, 'run_whisper.cmd')
-_output_dir = os.path.join(_script_dir, 'output')
+_output_dir = os.path.join(_whisperx_dir, 'output')
 
 
 def make_srt_from_file(video_file_path, config: Config):
