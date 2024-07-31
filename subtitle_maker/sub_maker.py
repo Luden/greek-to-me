@@ -15,11 +15,11 @@ def make_subtitles(video_file, config: Config):
     print(f'Subtitle making started for {video_file}')
     srt_file = make_srt_from_file(video_file, config)
     srt = Subtitle(srt_file)
-    if config.translate_with_gpt:
+    if config.translate_with_chat_gpt:
         gpt_translate_srt.translate_srt(srt, config)
     if config.translate_with_argos:
         argos_process.translate_srt(srt, config)
-    if config.move_tags_with_gpt:
+    if config.move_tags_with_chat_gpt:
         gpt_translate_srt.move_tags(srt, config)
     srt.format_augmented_text(config.translated_text_color)
     output_file = make_unique_srt_file_name(video_file)

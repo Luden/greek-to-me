@@ -33,9 +33,9 @@ def translate_file(input_file, output_file, config: Config):
 
 def request_chat_completion(role_content, user_content, config: Config):
     try:
-        client = OpenAI(api_key=config.api_key)
+        client = OpenAI(api_key=config.chat_gpt_api_key)
         response = client.chat.completions.create(
-            model=config.model,
+            model=config.chat_gpt_model,
             messages=[
                 {"role": "system", "content": role_content},
                 {"role": "user", "content": user_content}
@@ -49,7 +49,7 @@ def request_chat_completion(role_content, user_content, config: Config):
 
 
 def request_chunked_chat_completion(role_content, user_content, config: Config):
-    chunks = split_text_into_chunks(user_content, config.max_tokens)
+    chunks = split_text_into_chunks(user_content, config.chat_gpt_max_tokens)
     translated_chunks = []
     for chunk in chunks:
         response = request_chat_completion(role_content, chunk, config)
@@ -76,13 +76,13 @@ def request_translation_parallel(text_list, config: Config):
 
 
 def format_translator_role_content(config: Config):
-    additional_role_context = config.context
+    additional_role_context = config.chat_gpt_translate_context
     if additional_role_context and not additional_role_context.endswith('.'):
         additional_role_context += '.'
-    if config.is_whisper:
-        additional_role_context += f' {config.whisper_context}'
+    if config.transcribe_with_whisper:
+        additional_role_context += f' {config.chat_gpt_whisper_context}'
     context = f' Context: {additional_role_context}' if additional_role_context else ''
-    translate_request = config.translate_request_format.format(language_from=config.language_from, language_to=config.language_to)
+    translate_request = config.chat_gpt_translate_request_format.format(language_from=config.language_from, language_to=config.language_to)
     return f'{translate_request}{context} Text:'
 
 

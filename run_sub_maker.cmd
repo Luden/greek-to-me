@@ -1,0 +1,1 @@
+call "%~dp0subtitle_maker/run_sub_maker.cmd"

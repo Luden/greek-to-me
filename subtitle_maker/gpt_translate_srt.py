@@ -19,7 +19,7 @@ def translate_srt_in_place(input_file, output_file, config: Config):
 
 
 def translate_srt(srt: Subtitle, config: Config):
-    print(f'GPT translating srt from {config.language_from} to {config.language_to} with context "{config.context}"')
+    print(f'GPT translating srt from {config.language_from} to {config.language_to} with context "{config.chat_gpt_translate_context}"')
     distinct_lines = srt.get_distinct_lines_without_tags()
     translated_distinct_lines = request_translation_parallel(distinct_lines, config)
     for subtitle_line in srt.lines:
@@ -45,10 +45,10 @@ def try_move_tags_in_subtitle_line_from_parallel_executor(subtitle_line, config:
 
 
 def try_move_tags_to_translated_text(original_line, translated_line, config: Config):
-    user_content = config.move_tags_user_content.format(original_line=original_line, translated_line=translated_line)
+    user_content = config.chat_gpt_move_tags_user_content.format(original_line=original_line, translated_line=translated_line)
     max_attempts_to_fix_tags = 5
     for attempt in range(max_attempts_to_fix_tags):
-        translated_line_with_tags = request_chat_completion(config.move_tags_chat_role, user_content, config)
+        translated_line_with_tags = request_chat_completion(config.chat_gpt_move_tags_role, user_content, config)
         translated_line_with_tags = cleanup_chats_bullshit(translated_line, translated_line_with_tags)
         if check_tags_response_looks_legit(translated_line_with_tags, translated_line, attempt):
             return translated_line_with_tags
