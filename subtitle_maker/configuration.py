@@ -1,7 +1,8 @@
 ﻿import json
 import os
 
-_config_file_path = 'config.json'
+_script_dir = os.path.dirname(os.path.abspath(__file__))
+_config_file_path = os.path.join(_script_dir, 'config.json')
 
 
 class Config:
