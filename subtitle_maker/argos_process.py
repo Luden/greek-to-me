@@ -21,6 +21,8 @@ def translate_srt(srt: Subtitle, config: Config):
 
 def translate_lines(distinct_lines, config: Config):
     print(f'Argos translating srt from {config.language_from} to {config.language_to}')
+    if not os.path.exists(_output_dir):
+        os.makedirs(_output_dir)
     from_file_path = os.path.join(_output_dir, 'subtitle_original_lines.txt')
     with open(from_file_path, 'w', encoding='utf-8') as file:
         file.write('\n'.join(distinct_lines))
