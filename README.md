@@ -4,6 +4,8 @@ An application to generate bilingual subtitles for any video files (not just Gre
 ## Why?
 Because I wanted to learn Greek by watching SpongeBob with subtitles and seeing the translation of the subtitles simultaneously. I found a video with audio, but I couldn't find one with subtitles.
 
+![](/img/example.gif)
+
 ## Features
 - WhisperX runs on your GPU to transcribe video files and create .srt files.
 - WhisperX adds tags to the .srt files so the currently pronounced word is highlighted.
@@ -29,7 +31,8 @@ Because I wanted to learn Greek by watching SpongeBob with subtitles and seeing 
 
 ### Happy flow
 1. Clone this repo.
-2. Run `install.cmd` and follow the instructions.
+2. Install [Python](https://www.python.org/ftp/python/3.12.4/python-3.12.4-amd64.exe) and add it to PATH
+3. Run `install.cmd` from the root folder and follow the instructions.
 
 It will never work, who am I trying to fool?
 
@@ -53,7 +56,7 @@ pip install torch==2.2.1 torchvision==0.17.1 torchaudio==2.2.1 --index-url https
   - Go to [OpenAI](https://platform.openai.com) and create an account.
   - Visit the [Billing page](https://platform.openai.com/settings/organization/billing/overview) and manage your tariff to ensure you have enough tokens to actually use the ChatGPT API. (This isn’t an advertisement; I’d be happier with a free offline version of ChatGPT, but alas, there isn’t one.)
   - Go to [Api keys](https://platform.openai.com/api-keys) and add a new key. Write it down somewhere safe.
-7. Go to the `gpt_translate` folder and run `run_sub_maker.cmd`:
+7. Go to the `subtitle_maker` folder and run `run_sub_maker.cmd`:
   - A configuration file `config.json` should appear.
   - Put your API key in that file.
   - Adjust other settings if you like.
@@ -62,11 +65,11 @@ pip install torch==2.2.1 torchvision==0.17.1 torchaudio==2.2.1 --index-url https
 Before using the application, you need to adjust the settings:
 - Open `config.json` in any text editor.
 - Change `language_from` and `language_to`.
-- Adjust ChatGPT's `model` according to your budget.
-- Enable `move_tags` if desired.
-- Enable `translate_with_gpt` if desired.
+- Adjust `chat_gpt_model` according to your budget.
+- Enable `move_tags_with_chat_gpt` if desired.
+- Enable `translate_with_chat_gpt` if desired.
 - Enable `translate_with_argos` if desired.
-- Adjust `context` based on the videos you want to translate. The more precise the context, the better the translation, the more tokens you will pay.
+- Adjust `chat_gpt_translate_context` based on the videos you want to translate. The more precise the context, the better the translation, the more tokens you will pay.
 - Change other parameters if you’re feeling lucky.
 
 ## Usage
