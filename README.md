@@ -15,12 +15,14 @@ Because I wanted to learn Greek by watching SpongeBob with subtitles and seeing 
 
 ## Requirements
 - [Python](https://www.python.org) 3.9 or any [latest release](https://www.python.org/ftp/python/3.12.4/python-3.12.4-amd64.exe). Don’t forget to add it to PATH.
-- ~12gb of free space on disk
+- ~12gb of free space on a disk drive
+- A decent GPU
   
 Everything else should be installed automatically with `install.cmd`
 - [FFmpeg](https://www.ffmpeg.org/)
 - [WhisperX](https://github.com/m-bain/whisperX)
-  - Requires a GPU with 10GB+ VRAM to run the best model. Surely, everyone has one of those these days, right?
+  - Requires a GPU with 10GB+ of memory to run the best model. Surely, everyone has one of those these days, right?
+  - By default, the model is selected according to your GPU memory amount.
 - [Argos](https://github.com/argosopentech/argos-translate)
   - Also requires a good GPU.
   - Not needed if you choose ChatGPT for translation.
@@ -32,7 +34,7 @@ Everything else should be installed automatically with `install.cmd`
 ### Happy flow
 1. Clone this repo.
 2. Install [Python](https://www.python.org/ftp/python/3.12.4/python-3.12.4-amd64.exe) and add it to PATH
-3. Run `install.cmd` and wait about 10 minutes. It will install everything and then will open config.json for you.
+3. Run `install.cmd` and wait about 10 minutes. It will install everything and then will open config.json for your pleasure
 
 It will never work, who am I trying to fool?
 
@@ -58,18 +60,22 @@ pip install torch==2.2.1 torchvision==0.17.1 torchaudio==2.2.1 --index-url https
   - Go to [Api keys](https://platform.openai.com/api-keys) and add a new key. Write it down somewhere safe.
 7. Go to the `subtitle_maker` folder and run `run_sub_maker.cmd`:
   - A configuration file `config.json` should appear.
-  - Put your API key in that file.
+  - Put your API key in that file at `chat_gpt_api_key`
   - Adjust other settings if you like.
 
 ## Settings
 Before using the application, you need to adjust the settings:
 - Open `config.json` in any text editor.
 - Change `language_from` and `language_to`.
+- Set `chat_gpt_api_key` to the one you aquired from OpenAI.
 - Adjust `chat_gpt_model` according to your budget.
+- Adjust `whisper_model`. By default, the model is selected according to your GPU memory amount.
 - Enable `move_tags_with_chat_gpt` if desired.
 - Enable `translate_with_chat_gpt` if desired.
 - Enable `translate_with_argos` if desired.
 - Adjust `chat_gpt_translate_context` based on the videos you want to translate. The more precise the context, the better the translation, the more tokens you will pay.
+- Adjust `chat_gpt_max_requests_per_minute` to your OpenAI's tier, which is by default set to 450 sligthly below tier-1 limit of 500RPM for 4o-mini
+- Change `translated_text_color` to your favourite color!
 - Change other parameters if you’re feeling lucky.
 
 ## Usage
@@ -78,7 +84,7 @@ The application is designed for casual use — just click on the icon, and every
 - If you pass a full file path to `run_sub_maker.cmd`, it will bypass the UI prompt and process the file directly.
 
 ## Issues
-Token limits are not handled. The application will stop working properly if you deplete your ChatGPT token limit.
+Daily token and request limits are not handled. The application will stop working properly if you deplete your ChatGPT token limit.
 
 - Transcription with whisperx is BAD, but it’s the best free offline solution available right now.
 - Translation with Argos is HORRIBLE, but it’s all you can get for free and still better than Google Translate, in my opinion.
