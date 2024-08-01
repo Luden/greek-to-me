@@ -16,6 +16,7 @@ class Config:
     chat_gpt_move_tags_role = f'Place exactly a single pair of tags in the translated text around exactly the same word where they were in the original text. Add nothing except tags. Use punctuation from translated text'
     chat_gpt_move_tags_user_content = 'Original text:{original_line}\nTranslated text:{translated_line}'
     chat_gpt_max_tokens = 1000
+    chat_gpt_max_requests_per_minute = 450
     chat_gpt_whisper_context = 'Text recorded using OpenAI Whisper with errors.'
     language_from = 'Greek'
     language_to = 'Russian'
@@ -25,8 +26,8 @@ class Config:
     move_tags_with_chat_gpt = False
     transcribe_with_whisper = True
     translated_text_color = 'yellow'
-    whisper_model = 'large-v3'
-    whisper_models_list = ['small', 'medium', 'large-v3']
+    whisper_model = 'large-v2'
+    whisper_models_list = ['small', 'medium', 'large-v2', 'large-v3']
 
     def check_valid(self):
         is_translation_enabled = self.translate_with_chat_gpt or self.translate_with_argos

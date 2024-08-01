@@ -4,7 +4,7 @@ from itertools import repeat
 
 from configuration import Config, load_or_create_config
 from gpt_translate import request_chat_completion, request_translation_parallel
-from progress_counter import ProgressCounter
+from request_counter import ProgressCounter
 from subtitles import Subtitle, remove_tags
 
 progress_counter = ProgressCounter('Transforming tags')
@@ -30,14 +30,14 @@ def translate_srt(srt: Subtitle, config: Config):
 
 def move_tags(srt: Subtitle, config: Config):
     print('GPT moving tags to translated text')
-    progress_counter.reset(len(srt.lines))
+    progress_counter.reset(len(srt.lines), config.chat_gpt_max_requests_per_minute)
     with concurrent.futures.ThreadPoolExecutor(max_workers=config.max_threads) as executor:
         executor.map(try_move_tags_in_subtitle_line_from_parallel_executor, srt.lines, repeat(config))
     print('GPT finished moving tags')
 
 
 def try_move_tags_in_subtitle_line_from_parallel_executor(subtitle_line, config: Config):
-    progress_counter.increment_and_report()
+    progress_counter.wait_for_limit()
     if subtitle_line.translated_text_without_tags and subtitle_line.text_has_tags:
         subtitle_line.translated_text_with_tags = try_move_tags_to_translated_text(subtitle_line.text, subtitle_line.translated_text_without_tags, config)
     else:

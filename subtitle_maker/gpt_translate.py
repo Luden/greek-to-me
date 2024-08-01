@@ -2,7 +2,7 @@
 from openai import OpenAI
 
 from configuration import Config
-from progress_counter import ProgressCounter
+from request_counter import ProgressCounter
 
 progress_counter = ProgressCounter('Translating lines')
 
@@ -58,7 +58,7 @@ def request_chunked_chat_completion(role_content, user_content, config: Config):
 
 
 def request_chunked_chat_completion_from_parallel_executor(role_content, user_content, config: Config):
-    progress_counter.increment_and_report()
+    progress_counter.wait_for_limit()
     return request_chunked_chat_completion(role_content, user_content, config)
 
 
@@ -69,7 +69,7 @@ def request_translation(text, config: Config):
 
 def request_translation_parallel(text_list, config: Config):
     role_content = format_translator_role_content(config)
-    progress_counter.reset(len(text_list))
+    progress_counter.reset(len(text_list), config.chat_gpt_max_requests_per_minute)
     with concurrent.futures.ThreadPoolExecutor(max_workers=config.max_threads) as executor:
         result = list(executor.map(lambda text: request_chunked_chat_completion_from_parallel_executor(role_content, text, config), text_list))
     return result
