@@ -4,7 +4,7 @@ An application to generate bilingual subtitles for any video files (not just Gre
 ## Why?
 Because I wanted to learn Greek by watching SpongeBob with subtitles and seeing the translation of the subtitles simultaneously. I found a video with audio, but I couldn't find one with subtitles.
 
-![](/img/example.gif)
+![](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2VidW1zeHJmZWVxOWI1N2dkNmZ5ZjlveHBmNDFqZ2o5ZWUwbjk4YiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/T3bg0UQ010ZoUCLNIy/giphy.gif)
 
 ## Features
 - WhisperX runs on your GPU to transcribe video files and create .srt files.
