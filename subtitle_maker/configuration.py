@@ -24,6 +24,8 @@ class Config:
     move_tags_with_chat_gpt = False
     transcribe_with_whisper = True
     translated_text_color = 'yellow'
+    whisper_model = 'large-v3'
+    whisper_models_list = ['small', 'medium', 'large-v3']
 
     def check_valid(self):
         is_translation_enabled = self.translate_with_chat_gpt or self.translate_with_argos

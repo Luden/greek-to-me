@@ -15,7 +15,7 @@ _output_dir = os.path.join(_whisperx_dir, 'output')
 def make_srt_from_file(video_file_path, config: Config):
     print(f'Creating {config.language_from} srt file for {video_file_path}')
     video_file_name = os.path.splitext(os.path.basename(video_file_path))[0]
-    cmd_line = f'{_whisperx_location} --language {config.language_from} "{video_file_path}"'
+    cmd_line = f'{_whisperx_location} --model {config.whisper_model} --language {config.language_from} "{video_file_path}"'
     process = subprocess.Popen(cmd_line, stdout=sys.stdout, stderr=sys.stderr)
     process.wait()
     srt_path = os.path.join(_output_dir, f'{video_file_name}.srt')
