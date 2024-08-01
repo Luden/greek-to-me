@@ -7,7 +7,7 @@ Because I wanted to learn Greek by watching SpongeBob with subtitles and seeing 
 ![](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExN2VidW1zeHJmZWVxOWI1N2dkNmZ5ZjlveHBmNDFqZ2o5ZWUwbjk4YiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/T3bg0UQ010ZoUCLNIy/giphy.gif)
 
 ## Features
-- WhisperX runs on your GPU to transcribe video files and create .srt files.
+- WhisperX opens video files with ffmpeg and then runs on your GPU to transcribe video files and create .srt files.
 - WhisperX adds tags to the .srt files so the currently pronounced word is highlighted.
 - Argos or ChatGPT translates the .srt files into your native language.
 - ChatGPT moves the tags from the original language to the translated language.
@@ -15,16 +15,16 @@ Because I wanted to learn Greek by watching SpongeBob with subtitles and seeing 
 
 ## Requirements
 - [Python](https://www.python.org) 3.9 or any [latest release](https://www.python.org/ftp/python/3.12.4/python-3.12.4-amd64.exe). Don’t forget to add it to PATH.
-- [FFmpeg](https://www.ffmpeg.org/) any [latest release](https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip). Don’t forget to add it to PATH.
+- ~12gb of free space on disk
+  
+Everything else should be installed automatically with `install.cmd`
+- [FFmpeg](https://www.ffmpeg.org/)
 - [WhisperX](https://github.com/m-bain/whisperX)
   - Requires a GPU with 10GB+ VRAM to run the best model. Surely, everyone has one of those these days, right?
 - [Argos](https://github.com/argosopentech/argos-translate)
   - Also requires a good GPU.
   - Not needed if you choose ChatGPT for translation.
-- [OpenAI](https://platform.openai.com) API key for various ChatGPT requests:
-  - Translation
-  - Tags reposition
-  - Other text transformations
+- [OpenAI](https://platform.openai.com) API key for various ChatGPT requests: translation, tags reposition, other text transformations
   - Not needed if you choose Argos for translation and don’t want to move tags.
 
 ## Installation
@@ -32,7 +32,7 @@ Because I wanted to learn Greek by watching SpongeBob with subtitles and seeing 
 ### Happy flow
 1. Clone this repo.
 2. Install [Python](https://www.python.org/ftp/python/3.12.4/python-3.12.4-amd64.exe) and add it to PATH
-3. Run `install.cmd` from the root folder and follow the instructions.
+3. Run `install.cmd` and wait about 10 minutes. It will install everything and then will open config.json for you.
 
 It will never work, who am I trying to fool?
 
@@ -80,10 +80,10 @@ The application is designed for casual use — just click on the icon, and every
 ## Issues
 Token limits are not handled. The application will stop working properly if you deplete your ChatGPT token limit.
 
-- Transcription is BAD, but it’s the best free offline solution available right now.
+- Transcription with whisperx is BAD, but it’s the best free offline solution available right now.
 - Translation with Argos is HORRIBLE, but it’s all you can get for free and still better than Google Translate, in my opinion.
-- Translation with ChatGPT 3.5 is BAD, but it's ~10x cheaper than other models.
-- Translation with ChatGPT 4 is STILL BAD, but it's better than everything else out there.
-- Tags transformation is BARELY WORKING, but you can try adjusting the context, and maybe it will improve a little.
+- Translation with ChatGPT 3.5 and 4o-mini is BAD, but it's ~10x cheaper than other models.
+- Translation with ChatGPT 4o is STILL BAD, but it's better than everything else out there.
+- Tags transformation is BARELY WORKING and makes A LOT of requests, depleting your daily limits, but you can try adjusting the context, and maybe it will improve a little.
 
 Overall, it’s more of a toy than a tool, but it’s sufficient to watch SpongeBob — otherwise, it would be all Greek to me =)
