@@ -1,5 +1,6 @@
 ﻿import json
 import os
+import subprocess
 
 _script_dir = os.path.dirname(os.path.abspath(__file__))
 _config_file_path = os.path.join(_script_dir, 'config.json')
@@ -66,6 +67,7 @@ def load_config(config_class, filename):
 def load_or_create_config():
     if not os.path.isfile(_config_file_path):
         config = Config()
+        adjust_system_defaults(config)
         save_config(config, _config_file_path)
         print(f'Created default config file at {_config_file_path}. Please edit it and run the script again.')
         return config
@@ -78,6 +80,28 @@ def load_or_create_config():
         print(ex)
         print(f'Failed to load config file {_config_file_path}, please fix it manually or delete it to create a new one.')
         exit(1)
+
+
+def adjust_system_defaults(config: Config):
+    gpu_memory_gb = get_gpu_memory_amount_gb()
+    if gpu_memory_gb <= 2:
+        config.whisper_model = 'small'
+    elif gpu_memory_gb <= 8:
+        config.whisper_model = 'medium'
+    else:
+        config.whisper_model = 'large-v3'
+    print(f'Adjusted Whisper model to {config.whisper_model} based on detected GPU memory amount={gpu_memory_gb}GB')
+
+
+def get_gpu_memory_amount_gb():
+    cmd_line = 'nvidia-smi --query-gpu=memory.total --format=csv'
+    process = subprocess.Popen(cmd_line, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process.wait()
+    output = process.stdout.read().decode('utf-8')
+    mib_str = output.split('\n')[1].replace(' MiB', '')
+    mib = int(mib_str)
+    gib = mib / 1024
+    return gib
 
 
 if __name__ == '__main__':
