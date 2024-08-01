@@ -17,6 +17,7 @@ Because I wanted to learn Greek by watching SpongeBob with subtitles and seeing 
 - [Python](https://www.python.org) 3.9 or any [latest release](https://www.python.org/ftp/python/3.12.4/python-3.12.4-amd64.exe). Don’t forget to add it to PATH.
 - ~12gb of free space on a disk drive
 - A decent GPU
+- Windows PC to run `cmd` files. Since 95% of this application is on Python, it should not be a problem for you to port it to your OS.  
   
 Everything else should be installed automatically with `install.cmd`
 - [FFmpeg](https://www.ffmpeg.org/)
