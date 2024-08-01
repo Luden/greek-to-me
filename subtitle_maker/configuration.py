@@ -6,7 +6,7 @@ _config_file_path = os.path.join(_script_dir, 'config.json')
 
 
 class Config:
-    _help = 'This is a configuration file for the sub_maker. Check everything is set correctly, set your API keys and other settings. Then run sub_sub_maker.cmd'
+    _read_me_ = 'This is a configuration file for the sub_maker. Check everything is set correctly, set your API keys and other settings. Then run sub_sub_maker.cmd'
     chat_gpt_api_key = ''
     chat_gpt_models_list = ['gpt-4o-mini', 'gpt-4o', 'gpt-3.5-turbo']
     chat_gpt_model = 'gpt-4o-mini'
